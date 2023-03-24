@@ -2,24 +2,35 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use App\Repository\UserRepository;
+use ApiPlatform\Metadata\ApiResource;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity('email',message:"cet email existe déjà")]
+#[ApiResource()]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
     private ?int $id = null;
 
+    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message:"l'email doit être renseigner")]
+    #[Assert\Email(message:" l'email {{ value }} n'est valide")]
     private ?string $email = null;
 
+    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -27,12 +38,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message:"le montant doit être renseigner")]
+    #[Assert\Length(min:3 , minMessage:"le mot de passe doit faire au minimum 3 caractères")]
     private ?string $password = null;
-
+   
+    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"le prénom doit être renseigner")]
+    #[Assert\Length(min:2 , minMessage:"le prénom doit faire au minimum 2 caractères")]
     private ?string $firstname = null;
-
+  
+    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"le nom doit être renseigner")]
+    #[Assert\Length(min:3 , minMessage:"le nom doit faire au minimum 3 caractères")]
     private ?string $lastname = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Customer::class)]
