@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use ApiPlatform\Metadata\ApiResource;
@@ -15,22 +16,25 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity('email',message:"cet email existe déjà")]
-#[ApiResource()]
+#[ApiResource(
+  
+    normalizationContext:['groups'=>['users:read']],
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
+    #[Groups(['customers:read','invoices:read','invoices_subressource','users:read'])]
     private ?int $id = null;
 
-    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
+    #[Groups(['customers:read','invoices:read','invoices_subressource','users:read'])]
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message:"l'email doit être renseigner")]
     #[Assert\Email(message:" l'email {{ value }} n'est valide")]
     private ?string $email = null;
 
-    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
+    #[Groups(['customers:read','invoices:read','invoices_subressource','users:read'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -42,13 +46,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min:3 , minMessage:"le mot de passe doit faire au minimum 3 caractères")]
     private ?string $password = null;
    
-    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
+    #[Groups(['customers:read','invoices:read','invoices_subressource','users:read'])]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"le prénom doit être renseigner")]
     #[Assert\Length(min:2 , minMessage:"le prénom doit faire au minimum 2 caractères")]
     private ?string $firstname = null;
   
-    #[Groups(['customers:read','invoices:read','invoices_subressource'])]
+    #[Groups(['customers:read','invoices:read','invoices_subressource','users:read'])]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:"le nom doit être renseigner")]
     #[Assert\Length(min:3 , minMessage:"le nom doit faire au minimum 3 caractères")]

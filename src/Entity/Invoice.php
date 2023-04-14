@@ -32,11 +32,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             // paginationClientEnabled: true, # surcharger la configuratin par defaut
             paginationClientItemsPerPage: true,
             // order: ['sentAt' => 'DESC',],
-            uriTemplate: '/factures', 
             
         ),
         new Get(
-            uriTemplate: '/facture/{id}',
             requirements: ['id' => '\d+'], 
         ) , 
         new Post(),
@@ -48,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext:['disable_type_enforcement'=>true]
 )]
 #[ApiResource(
-    uriTemplate: '/client/{id}/factures', 
+    uriTemplate: '/customers/{id}/factures', 
     uriVariables: [
         'id' => new Link(
             fromClass: Customer::class,
