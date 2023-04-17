@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Invoice;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Customer;
+use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Invoice>
@@ -37,6 +39,31 @@ class InvoiceRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function getLastChrono(Customer $customer)
+    {
+        return $this->createQueryBuilder('i')
+                    ->andWhere('i.customer = :customer')
+                    ->setParameter('customer',$customer)
+                    ->orderBy('i.chrono','DESC')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getResult()
+                    ;
+    }
+    public function findLastChrono(User $user)
+    {
+        return $this->createQueryBuilder('i')
+                    ->select('i.chrono')
+                    ->join('i.customer','customer')
+                    ->where('customer.user = :user')
+                    ->setParameter('user',$user)
+                    ->orderBy('i.chrono','DESC')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getSingleScalarResult()
+                    ;
     }
 
 //    /**
