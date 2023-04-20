@@ -20,17 +20,16 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\Controller\IncrementInvoiceChronoController;
 use ApiPlatform\OpenApi\Model\Operation as ModelOperation;
-use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 #[ApiResource(  
     operations: [
         new GetCollection(
-            paginationEnabled: true,  
+            //paginationEnabled: true,  
             // paginationItemsPerPage: 30, # surcharger la configuratin par defaut
             // paginationClientEnabled: true, # surcharger la configuratin par defaut
-            paginationClientItemsPerPage: true,
+            //paginationClientItemsPerPage: true,
             // order: ['sentAt' => 'DESC',],
             
         ),

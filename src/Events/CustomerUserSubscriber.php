@@ -27,6 +27,7 @@ class CustomerUserSubscriber implements EventSubscriberInterface
 
     public function createCustomer(ViewEvent $viewEvent)
     {
+
         $result = $viewEvent->getControllerResult();
         $method = $viewEvent->getRequest()->getMethod();
 
@@ -34,6 +35,8 @@ class CustomerUserSubscriber implements EventSubscriberInterface
         {
             $user = $this->security->getUser();
             $result->setUser($user);
+            
+
             
         }
 

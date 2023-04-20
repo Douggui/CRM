@@ -1,12 +1,12 @@
 api_platform:
   defaults:
-    pagination_items_per_page: 5 
     pagination_client_enabled: true
+    pagination_client_items_per_page: true
   mapping:
     paths: ['%kernel.project_dir%/src/Entity']
   collection:
     pagination:
       enabled: false
-      # enabled_parameter_name: pagination # optional
-      # items_per_page_parameter_name: itemsPerPage # default
+      #enabled_parameter_name: pagination # optional
+      items_per_page_parameter_name: count # default
     
