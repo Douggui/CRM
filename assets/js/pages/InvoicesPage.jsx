@@ -3,6 +3,7 @@ import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { Pagination, data } from "../components/Pagination/Pagination";
 import config from "../config";
+import Spinner from "../components/Spinner/Spinner";
 
 
 const InvoicesPage = () => {
@@ -39,11 +40,12 @@ const InvoicesPage = () => {
         }catch(err){
             setError(err);
         }
+        setIsLoading(false);
     }
     
     useEffect(()=>{
         fetchInvoices();
-        setIsLoading(false);
+  
     },[]);
 
     const handleChangePage = (page) =>{
@@ -84,7 +86,7 @@ const InvoicesPage = () => {
             </thead>
             <tbody>
     
-                {
+                { isLoading ? <tr className="d-flex justify-content-center"><td><Spinner/></td></tr> :
                     paginatedInvoices.map(({id,chrono,amount,sentAt,status,customer}) => (
 
                         <tr className="" key={id}>

@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import config from '../config';
 import { Pagination, data } from '../components/Pagination/Pagination';
+import Spinner from '../components/Spinner/Spinner';
 // import Pagination from '../components/Pagination/Pagination';
 
 const CustomersPage = (props) => {
@@ -15,18 +16,19 @@ const CustomersPage = (props) => {
         
         try{
             const response = await  Axios.get(`${config.URL}/customers`);
-            console.log(data);
+
             setCustomers(response.data['hydra:member']);
         }catch(err){
             
             setError(err);
         }
+        setIsLoading(false);
     }
     useEffect(()=>{
         fetchCustomers();
-        setIsLoading(false);
+
     },[]);
-    
+
     const deleteCustomer= async(id) => {
         try{
             const response = await Axios.delete(`${config.URL}/customers/${id}`)
@@ -58,9 +60,8 @@ const CustomersPage = (props) => {
         setSearch(e.currentTarget.value);
         setCurrentPage(1);
     }
-    console.log(customers);
     return (<>
-            {error ? <p className='text-center mt-5'>Une erreur s'est produite</p> : 
+            {error ? <p className='text-center mt-5'>erreur</p> : 
             <div>
             <h1 className='mt-5 text-center'>Liste des clients</h1>
             
@@ -83,7 +84,8 @@ const CustomersPage = (props) => {
    
                    <tbody>
                     
-                      {isLoading ? <tr><td>chargement....</td></tr> : paginatedCustomers.map( ({id,firstname,lastname,email,company,totalAmount,invoices}) =>(
+                      { isLoading ? <tr><td><Spinner/></td></tr> :
+                           paginatedCustomers.map( ({id,firstname,lastname,email,company,totalAmount,invoices}) =>(
                            <tr key={id}>
                            <th >{id}</th>
                            <td><a href="#">{`${firstname} ${lastname}`}</a></td>

@@ -52,6 +52,7 @@ class AppFixtures extends Fixture
                             ->setSentAt($faker->dateTimeBetween('-6 months'))
                             ->setStatus($faker->randomElement([Invoice::SENT,Invoice::CANCELED,Invoice::PAYED]))
                             ->setChrono($chrono);
+                            
                     $manager->persist($invoice);
                     $chrono++;
                 }
