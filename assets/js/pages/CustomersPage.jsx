@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import config from '../config';
 import { Pagination, data } from '../components/Pagination/Pagination';
 import Spinner from '../components/Spinner/Spinner';
-// import Pagination from '../components/Pagination/Pagination';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 const CustomersPage = (props) => {
     const [customers,setCustomers]     = useState([]);
@@ -16,8 +16,9 @@ const CustomersPage = (props) => {
         
         try{
             const response = await  Axios.get(`${config.URL}/customers`);
-
+            console.log(response);
             setCustomers(response.data['hydra:member']);
+            console.log(customers);
         }catch(err){
             
             setError(err);
@@ -63,7 +64,12 @@ const CustomersPage = (props) => {
     return (<>
             {error ? <p className='text-center mt-5'>erreur</p> : 
             <div>
-            <h1 className='mt-5 text-center'>Liste des clients</h1>
+                <div className='d-flex justify-content-between align-items-center mx-2 my-5'>
+                    <h1 className='text-center'>Liste des clients</h1>
+                    <p>
+                    <Link to="/customer/new" className="btn btn-primary btn-sm" >Créé un client</Link>
+                    </p>
+                </div>
             
                 <div className="form-group mx-4">
                     <input type="text" onChange={(e)=>handleChange(e)} value={search} placeholder = "Rechercher" className="form-control d-block" />
@@ -96,12 +102,14 @@ const CustomersPage = (props) => {
                            
                             <td>
                                 <button
-                                 className='btn btn-primary  btn-sm' 
+                                 className='btn btn-primary  btn-sm me-2' 
                                  disabled = {invoices.length > 0}
                                  onClick={()=>handlDelete(id)}
                                  >
                                     Supprimer
-                                </button></td>
+                                </button>
+                                <Link className='btn btn-success btn-sm' to={`/customer/${id}`}>Editer</Link>
+                            </td>
 
                            </tr>
                        ))}

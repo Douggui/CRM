@@ -70,9 +70,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(OrderFilter::class , properties:['amount','sentAt'] ,arguments: ['orderParameterName' => 'order'])]
 class Invoice
 {
-    const PAYED     = 'payed';
-    const CANCELED  = 'canceled';
-    const SENT      = 'sent';
+    const PAID     = 'PAID';
+    const CANCELED  = 'CANCELED';
+    const SENT      = 'SENT';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -96,7 +96,7 @@ class Invoice
     #[ORM\Column(length: 255)]
     #[Groups(['invoices:read','customers:read','invoices_subressource'])]
     #[Assert\NotBlank(message:"le montant doit être renseigner")]
-    #[Assert\Choice(choices:[self::CANCELED,self::PAYED,self::SENT],message:"status possible ".self::CANCELED.", ".self::PAYED.', '.self::SENT)]
+    #[Assert\Choice(choices:[self::CANCELED,self::PAID,self::SENT],message:"status possible ".self::CANCELED.", ".self::PAID.', '.self::SENT)]
     private ?string $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]

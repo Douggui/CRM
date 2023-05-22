@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import Axios from 'axios';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
 import { logout } from '../../services/Logout';
 import AuthContext from '../../context/AuthContext';
@@ -38,6 +37,7 @@ const  Navbar = ({ history}) => {
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/invoices">Factures</NavLink>
                     </li>
+                    
 
                 </ul>
                 <ul className="navbar-nav ms-auto ">

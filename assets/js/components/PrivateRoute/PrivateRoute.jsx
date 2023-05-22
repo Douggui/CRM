@@ -7,6 +7,6 @@ import AuthContext from '../../context/AuthContext';
     const {isAuthenticated} = useContext(AuthContext);
     return isAuthenticated ? 
     <Route path={path} component={component} /> : 
-    <Redirect to='login' />
+    <Redirect to='/login' />
 }
 export default PrivateRoute

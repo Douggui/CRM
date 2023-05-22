@@ -13,6 +13,9 @@ export  function setup(){
         if(jwtData.exp * 1000 > new Date().getTime()){
             Axios.defaults.headers['Authorization'] = `Bearer ${token}`
 
+        }else{
+            logout();
+            
         }
     }
 }
@@ -28,7 +31,7 @@ export function isUserAuthenticated(){
         if(jwtData.exp * 1000 > new Date().getTime()){
             Axios.defaults.headers['Authorization'] = `Bearer ${token}`
         }
-        return false
+        return true
     }
     return false
 }

@@ -3,13 +3,15 @@ import React, { useContext, useState } from "react";
 import config from'../config';
 import Spinner from "../components/Spinner/Spinner";
 import AuthContext from "../context/AuthContext";
+import Field from "../components/Forms/Field";
+
 const LoginPage = ({history}) => {
     const {isAuthenticated , setIsAuthenticated} = useContext(AuthContext);
     const [credentials,setCredentials] = useState({
         "username":"",
         "password":""
     });
-    const [badCredentials,setBadCredentials] =useState(false);
+    const [badCredentials,setBadCredentials] =useState('');
     const [FormSubmitted,setFormSubmitted] = useState(false);
     const handleChange = (e) =>{
        
@@ -26,16 +28,16 @@ const LoginPage = ({history}) => {
            token && setToken(token);
            setBadCredentials(false);
            window.localStorage.setItem('token',token);
-           console.log(window.localStorage.token);
            Axios.defaults.headers['Authorization'] = `Bearer ${token}`;
             setIsAuthenticated(true);
             history.replace("/customers");
         }catch(error){
            console.log(error);
-            error.response.status == 401 ? setBadCredentials(true):null ;
+            error.response.status == 401 ? setBadCredentials('email ou mdp incorrecte'):null ;
            
+        }finally{
+            setFormSubmitted(false);
         }
-        setFormSubmitted(false);
     }
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -50,43 +52,11 @@ const LoginPage = ({history}) => {
 
         <div className="row justify-content-center">
             <form className="col-12 col-md-6" onSubmit={handleSubmit}>
+            
+                <Field name="username" label="Adresse email" value={credentials.username} type="email" placeholder="adresse email" onChange={handleChange} error={badCredentials} />
                 
-                <div className="form-group my-3">
-                    <label 
-                        htmlFor="username">
-                        Adresse email
-                    </label>
-                    <input 
-                        value={credentials.username}
-                        onChange={handleChange}
-                        type="email" 
-                        className="form-control mt-2 "
-                        placeholder="adresse email" 
-                        name="username" 
-                    />
-                     <div className="invalid-feedback">
-                        mot de passe ou email invalide
-                    </div>
-                </div>
-                <div className="form-group">
-                    <label 
-                        htmlFor="password" >
-                            Mot de passe
-                    </label>
-                    <input 
-                        value={credentials.password}
-                        onChange={handleChange}
-                        type="password" 
-                        className={"form-control mt-2 "+ (badCredentials && "is-invalid")} 
-                        placeholder="mot de passe" 
-                        name="password" 
-                    />
-                    <div className="invalid-feedback mt-3">
-                        <span className="badge bg-danger col-12  p-3">
-                        mot de passe ou email invalide
-                        </span>
-                    </div>
-                </div>
+                <Field name="password" label="Mot de passe" value={credentials.password} type="password" placeholder="mot de passe" onChange={handleChange} error={badCredentials} />
+
                 <button className="btn btn-success btn-sm col-12 mt-3" disabled={FormSubmitted}>
                     {FormSubmitted ? 
                        <Spinner/> 

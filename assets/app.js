@@ -20,6 +20,9 @@ import LoginPage from './js/pages/LoginPage';
 import {setup , isUserAuthenticated} from './js/services/Setup';
 import AuthContext from './js/context/AuthContext';
 import PrivateRoute from './js/components/PrivateRoute/PrivateRoute';
+import CustomerPage from './js/pages/CustomerPage';
+import InvoicePages from './js/pages/InvoicePages';
+import FileDownload from './js/pages/FileDownload';
 
 setup();
 
@@ -32,11 +35,14 @@ const App = () =>{
             <NavBarWithRouter/>
             <Switch>
                 <Route path="/login" component = {LoginPage}  />
+                <PrivateRoute path="/customer/:id" component={CustomerPage} />
                 <PrivateRoute path="/customers" component={CustomersPage} />
+                <PrivateRoute path="/invoice/:id" component={InvoicePages} />
                 <PrivateRoute path="/invoices" component={InvoicesPage} />
                 <Route path="/" component={HomePage}/>
             </Switch>
         </HashRouter>
+
         </AuthContext.Provider>
     )
 }

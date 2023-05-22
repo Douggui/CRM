@@ -5,6 +5,7 @@ import { Pagination, data } from "../components/Pagination/Pagination";
 import config from "../config";
 import Spinner from "../components/Spinner/Spinner";
 
+import {Link} from "react-router-dom/cjs/react-router-dom.min"
 
 const InvoicesPage = () => {
     
@@ -15,12 +16,12 @@ const InvoicesPage = () => {
     const [search,setSearch]           =useState('');
 
     const STATUS_CLASSES = {
-        PAYED:"success",
+        PAID:"success",
         SENT:"info",
         CANCELED : "primary",
     }
     const STATUS_LABELS = {
-        PAYED:"Payée",
+        PAID:"Payée",
         SENT:"Envoyée",
         CANCELED : "Annulée",
     }
@@ -69,7 +70,10 @@ const InvoicesPage = () => {
         }
    }
     return ( <>
-        <h1 className="text-center my-5">Liste des factures</h1>
+        <div className="d-flex justify-content-between align-items-center my-5 mx-3"> 
+        <h1 className="">Liste des factures</h1>
+        <Link to='/invoice/new' className="btn btn-primary btn-sm">Crée une facture</Link>
+        </div>
         <div className="form-group mx-1">
             <input type="text" onChange={(e) => handleChange(e)} value={search} placeholder="Rechercher" className="form-control" />
         </div>
@@ -96,7 +100,7 @@ const InvoicesPage = () => {
                         <td className="text-center">{formatDate(sentAt)}</td>
                         <td className="text-center"><span className={"badge bg-" + (STATUS_CLASSES[status.toUpperCase()])}>{STATUS_LABELS[status.toUpperCase()]}</span> </td>
                         <td>
-                            <button className="btn btn-info btn-sm me-2">Editer</button>
+                            <Link className="btn btn-info btn-sm me-2" to={"/invoice/"+id}>Editer</Link>
                             <button className="btn btn-primary btn-sm" onClick={() => handleDelete(id)}>Supprimer</button>
                         </td>
                         </tr>

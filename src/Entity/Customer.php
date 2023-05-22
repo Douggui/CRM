@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\Link;
+
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -31,23 +31,23 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:"le prénom ne peut pas être vide")]
     #[Assert\Length(min:3,
-        minMessage:"le prénom doit faire au minimum 3 caractères",
-        max:20,
-        maxMessage:"le prénom doit faire au maximum 20 caractères"
+    minMessage:"le prénom doit faire au minimum 3 caractères",
+    max:20,
+    maxMessage:"le prénom doit faire au maximum 20 caractères"
     )]
+    #[Assert\NotBlank(message:"le prénom ne peut pas être vide")]
     #[Groups(['customers:read','invoices:read'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['customers:read','invoices:read'])]
-    #[Assert\NotBlank(message:"le nom ne peut pas être vide")]
     #[Assert\Length(min:3,
-        minMessage:"le nom doit faire au minimum 3 caractères",
-        max:20,
-        maxMessage:"le nom doit faire au maximum 20 caractères"
+    minMessage:"le nom doit faire au minimum 3 caractères",
+    max:20,
+    maxMessage:"le nom doit faire au maximum 20 caractères"
     )]
+    #[Assert\NotBlank(message:"le nom ne peut pas être vide")]
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
